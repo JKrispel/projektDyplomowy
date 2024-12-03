@@ -7,13 +7,26 @@
 #include "imguiThemes.h"
 #pragma endregion
 
+#include <player.h>
+#include <npc.h>
 
+// TODO
+// popraw kolizje z koncem mapy
 
 int main(void)
 {
+	const int screen_width = 1280;
+	const int screen_height = 800;
+
+	Rectangle map_bounds{};
+	map_bounds.height = float(screen_height) - 20.0f;
+	map_bounds.width = float(screen_width) - 20.0f;
+	map_bounds.x = 10.0f;
+	map_bounds.y = 10.0f;
 
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-	InitWindow(800, 450, "raylib [core] example - basic window");
+	InitWindow(screen_width, screen_height, "Test Drzew Decyzyjnych");
+	SetTargetFPS(60);
 
 #pragma region imgui
 	rlImGuiSetup(true);
@@ -42,13 +55,33 @@ int main(void)
 
 #pragma endregion
 
+	Player player;
+
+	player.position.x = screen_width / 2;
+	player.position.y = screen_height / 2;
+	player.radius = 20;
+	player.speed = 7;
+	player.area = map_bounds;
 
 
-	while (!WindowShouldClose())
-	{
+	Npc npc;
+	npc.position.x = 50.f;
+	npc.position.y = 50.f;
+	npc.radius = 20;
+	npc.speed = 7;
+
+	while (!WindowShouldClose()) {
+	
+
+		// Updating
+		player.update();
+		npc.update();
+		// Drawing
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
-
+		ClearBackground(BLACK);
+		DrawRectangleRec(map_bounds, DARKPURPLE);
+		player.draw();
+		npc.draw();
 
 	#pragma region imgui
 		rlImGuiBegin();
@@ -58,18 +91,6 @@ int main(void)
 		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 		ImGui::PopStyleColor(2);
 	#pragma endregion
-
-
-		ImGui::Begin("Test");
-
-		ImGui::Text("Hello");
-		ImGui::Button("Button");
-		ImGui::Button("Button2");
-
-		ImGui::End();
-
-
-		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
 
 	#pragma region imgui
