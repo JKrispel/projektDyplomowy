@@ -11,7 +11,7 @@
 #include <npc.h>
 
 // TODO
-// popraw kolizje z koncem mapy
+// AI dla NPC
 
 int main(void)
 {
@@ -24,7 +24,7 @@ int main(void)
 	map_bounds.x = 10.0f;
 	map_bounds.y = 10.0f;
 
-	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(screen_width, screen_height, "Test Drzew Decyzyjnych");
 	SetTargetFPS(60);
 

@@ -12,25 +12,20 @@ void Player::update()
 {	
 	Vector2 direction = Vector2Zero();
 	
-	if (IsKeyDown(KEY_UP)) {
+	if (IsKeyDown(KEY_UP) && position.y >= area.y + radius) {
 		direction.y -= speed;
 	}
-	if (IsKeyDown(KEY_DOWN)) {
+	if (IsKeyDown(KEY_DOWN) && position.y <= area.y + area.height - radius) {
 		direction.y += speed;
 	}
-	if (IsKeyDown(KEY_LEFT)) {
+	if (IsKeyDown(KEY_LEFT) && position.x >= area.x + radius) {
 		direction.x -= speed;
 	}
-	if (IsKeyDown(KEY_RIGHT)) {
+	if (IsKeyDown(KEY_RIGHT) && position.x <= area.x + area.width - radius) {
 		direction.x += speed;
 	}
-	bool collision = !CheckCollisionCircleRec(position, radius, area);
 
-	if (!collision) {
+	position = Vector2Add(position, Vector2Scale(Vector2Normalize(direction), speed));
 
-		position = Vector2Add(position, Vector2Scale(Vector2Normalize(direction), speed));
-	}
-	else {
-		position = Vector2Add(position, Vector2Negate(Vector2Scale(Vector2Normalize(direction), 3*speed)));
-	}
+	return;
 }
