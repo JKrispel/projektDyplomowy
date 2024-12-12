@@ -12,6 +12,7 @@
 
 // TODO
 // AI dla NPC
+// co musi sie wykonywac w kazdej klatce?
 
 int main(void)
 {
@@ -63,12 +64,16 @@ int main(void)
 	player.speed = 7;
 	player.area = map_bounds;
 
-
-	Npc npc;
+	// proste, testowe AI
+	// w finalnej implementacji NPC bedzie posiadal ActionManager
+	// npc otrzymuje jako target gracza
+	Npc npc(player);
 	npc.position.x = 50.f;
 	npc.position.y = 50.f;
 	npc.radius = 20;
-	npc.speed = 7;
+	npc.speed = 6;
+
+	// 
 
 	while (!WindowShouldClose()) {
 	
