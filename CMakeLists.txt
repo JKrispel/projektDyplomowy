@@ -25,7 +25,11 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) #link time optimization
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build Raylib as static libraries" FORCE)
 
 
+# Add installed libraries to CMake's search path
+list(APPEND CMAKE_PREFIX_PATH "C:/Users/kozoh/source/repos/JKrispel/projektDyplomowy/thirdparty/decisions")
 
+# Find Decisions library
+find_package(decisions REQUIRED)
 
 project(mygame)
 
@@ -84,5 +88,5 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURC
 
 # Link raylib library statically, Here wou would add other libraries!
 target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE 
-	raylib_static imgui rlimgui
+	raylib_static imgui rlimgui decisions::decisions
 )
