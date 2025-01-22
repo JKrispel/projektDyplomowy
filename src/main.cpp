@@ -1,4 +1,4 @@
-#include "raylib.h"
+﻿#include "raylib.h"
 #include <iostream>
 
 #pragma region imgui
@@ -13,6 +13,13 @@
 // TODO
 // AI dla NPC
 // co musi sie wykonywac w kazdej klatce?
+// Redesign:
+// unordered_map możliwych Akcji
+// FinalDecision będzie posiadać identyfikator String.
+// Logika decyzji zostanie oddzielona od wykonywania akcji.
+// (m.in. nie będzie też potrzeby przekazywania pozycji gracza i celu dla akcji w odmętach implementacji logiki decyzyjnej)
+// W ten sposób design logiki decyzyjnej, dostępnych akcji i ich dostępu do stanu gry powinien przyjąć bardziej orogonalny charakter.
+// Będzie to wymagało drobnych zmian w bibliotece (przede wszystkim klasa FinalDecision).
 
 int main(void)
 {
@@ -64,23 +71,22 @@ int main(void)
 	player.speed = 7;
 	player.area = map_bounds;
 
-	// proste, testowe AI
 	// w finalnej implementacji NPC bedzie posiadal ActionManager
-	// npc otrzymuje jako target gracza
-	Npc npc(player);
+	// Npc(Podążający) otrzymuje jako target gracza
+
+	Npc npc = Npc(player);
 	npc.position.x = 50.f;
 	npc.position.y = 50.f;
 	npc.radius = 20;
 	npc.speed = 6;
 
-	// 
 
 	while (!WindowShouldClose()) {
 	
 
 		// Updating
 		player.update();
-		npc.update();
+		npc.update();	// w środku zawarta logika AI
 		// Drawing
 		BeginDrawing();
 		ClearBackground(BLACK);

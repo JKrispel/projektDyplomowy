@@ -9,9 +9,9 @@ class FinalDecision :
     public DecisionTreeNode
 {
 private:
-    Action& rAction;
     std::unique_ptr<DecisionTreeNode> makeDecision() override;
-
+protected:
+    Action& rAction;
 public:
     FinalDecision(Action& rActionNew) : rAction(rActionNew) {}
     Action& getActionRef();
