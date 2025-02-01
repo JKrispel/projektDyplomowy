@@ -1,12 +1,20 @@
-﻿#include "npc.h"
-#include "raylib.h"
-#include "drzewa_decyzyjne/follow_decision.h"
+﻿#include <raylib.h>
+#include <decisions/decision_tree/final_decision.h>
+#include "npc.h"
+#include "actions/run.h"
+#include "actions/walk.h"
+#include "actions/stop.h"
+
+#include <iostream>
 
 Npc::Npc(Pawn& target):
-	target(target),
-	rootNode(DistanceDecision(60, *this, target))
+	target(target)
 {
 	manager = std::make_unique<ActionManager>();
+	// inicjalizacja unordered_map
+	npcActions[NpcAction::RUN] = std::make_unique<Run>(*this, target);
+	npcActions[NpcAction::WALK] = std::make_unique<Walk>(*this, target);
+	npcActions[NpcAction::STOP] = std::make_unique<Stop>();
 }
 
 void Npc::draw()
@@ -16,14 +24,12 @@ void Npc::draw()
 
 void Npc::update()
 {
-	// follow target
+	// aktualizuj odgległość
+	rootNode.setDistanceToTarget(Vector2Distance(position, target.position));
+	// podejmij decyzję
 	std::unique_ptr<DecisionTreeNode> decision = rootNode.makeDecision();
-	// po tej linijce decision powinno zawierać FinalDecision, które posiada akcje Follow
-	// 
-	// FinalDecision* finalDecision = dynamic_cast<FinalDecision*>(decision.get());
-	// tymczasowe obejście, należy zaimplementować getActionPtr w klasie bazowej - FinalDecision
-	FollowDecision* finalDecision = dynamic_cast<FollowDecision*>(decision.get());
-	auto actionPtr = finalDecision->getActionPtr();
-	manager->scheduleAction(std::move(actionPtr));
-	manager->execute(GetFrameTime());
+	auto* finalDecision = dynamic_cast<FinalDecision<NpcAction>*>(decision.get());
+	NpcAction actionType = finalDecision->getActionType();
+	npcActions[actionType]->execute();
 } 
+// Pawn position bez settera!

@@ -1,26 +1,26 @@
-#include "drzewa_decyzyjne/distance_decision.h"
-#include "follow.h"
+#include "drzewa_decyzyjne/distance_decision/distance_decision.h"
+#include <decisions/decision_tree/final_decision.h>
 #include <raymath.h>
+#include "utils/NpcAction.h"
+#include "drzewa_decyzyjne/distance_decision/close_enough_decision.h"
 
-DistanceDecision::DistanceDecision(int newDistance, Pawn& character, Pawn& target) :
-	distance(newDistance), 
-	character(character),
-	target(target),
-	finalDecision(std::make_unique<FinalDecision>(string identifier for action)) {
-	
-	
-}
+#include <iostream> // debug
 
-// cannot instatiate DecsionTreeNode
 std::unique_ptr<DecisionTreeNode> DistanceDecision::getBranch()
 {
+    std::cout << "Distance to target: " << distanceToTarget << std::endl;   // debug
 
-	if (Vector2Distance(character.position, target.position) < distance) {
+    if (distanceToTarget < slowDownThreshold) {
 
-		return std::make_unique<DistanceDecision>(200, character, target);
-	}
-	else {
+        return std::make_unique<CloseEnoughDecision>(distanceToTarget);
+    }
+    else {
 
-		return std::move(finalDecision);
-	}
+        return std::make_unique<FinalDecision<NpcAction>>(NpcAction::RUN);
+    }
+}
+
+void DistanceDecision::setDistanceToTarget(float newDistanceToTarget)
+{
+    distanceToTarget = newDistanceToTarget;
 }

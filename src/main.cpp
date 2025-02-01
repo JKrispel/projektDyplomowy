@@ -7,19 +7,21 @@
 #include "imguiThemes.h"
 #pragma endregion
 
-#include <player.h>
-#include <npc.h>
-
+#include "player.h"
+#include "npc.h"
+#include "decisions/action_manager/action.h"
 // TODO
 // AI dla NPC
 // co musi sie wykonywac w kazdej klatce?
 // Redesign:
 // unordered_map możliwych Akcji
-// FinalDecision będzie posiadać identyfikator String.
+// FinalDecision będzie posiadać identyfikator Enum.
 // Logika decyzji zostanie oddzielona od wykonywania akcji.
 // (m.in. nie będzie też potrzeby przekazywania pozycji gracza i celu dla akcji w odmętach implementacji logiki decyzyjnej)
-// W ten sposób design logiki decyzyjnej, dostępnych akcji i ich dostępu do stanu gry powinien przyjąć bardziej orogonalny charakter.
+// W ten sposób design logiki decyzyjnej, dostępnych akcji i ich dostępu do stanu gry powinien przyjąć bardziej ortogonalny charakter.
 // Będzie to wymagało drobnych zmian w bibliotece (przede wszystkim klasa FinalDecision).
+
+
 
 int main(void)
 {
@@ -78,7 +80,7 @@ int main(void)
 	npc.position.x = 50.f;
 	npc.position.y = 50.f;
 	npc.radius = 20;
-	npc.speed = 6;
+	npc.speed = 4;
 
 
 	while (!WindowShouldClose()) {

@@ -1,6 +1,6 @@
-#include "follow.h"
+#include "actions/run.h"
 
-void Follow::execute()
+void Run::execute()
 {
 	Vector2 directionVector = Vector2Normalize(Vector2Subtract(target.position, character.position));
 
@@ -8,7 +8,7 @@ void Follow::execute()
 	this->complete = true;
 }
 
-Pawn& Follow::getTargetRef()
+Pawn& Run::getTargetRef()
 {
 	return target;
 }

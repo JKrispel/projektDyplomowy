@@ -5,7 +5,7 @@ class Pawn {
 
 public:
 	Vector2 position;
-	int speed;
+	float speed;
 	int radius;
 	Rectangle area;
 
