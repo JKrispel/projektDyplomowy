@@ -1,4 +1,6 @@
 #include "actions/walk.h"
+#include <raylib.h>
+#include <raymath.h>
 
 void Walk::execute()
 {

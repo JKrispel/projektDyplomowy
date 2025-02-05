@@ -1,12 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "pawn.h"
-#include <raymath.h>
 #include <decisions/action_manager/action.h>
 
 class Run: public Action {
 private:
 	Pawn& character;
-	Pawn& target;
+	Pawn& target;	// tu powinien być Vector2 tbh
 
 
 public:

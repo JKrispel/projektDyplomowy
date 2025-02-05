@@ -9,6 +9,7 @@
 
 #include "player.h"
 #include "npc.h"
+#include "enemy.h"
 #include "decisions/action_manager/action.h"
 // TODO
 // AI dla NPC
@@ -82,6 +83,12 @@ int main(void)
 	npc.radius = 20;
 	npc.speed = 4;
 
+	Enemy enemy = Enemy(player);
+	enemy.position.x = 50.f;
+	enemy.position.y = 100.f;
+	enemy.radius = 20;
+	enemy.speed = 4;
+
 
 	while (!WindowShouldClose()) {
 	
@@ -89,12 +96,15 @@ int main(void)
 		// Updating
 		player.update();
 		npc.update();	// w środku zawarta logika AI
+		enemy.update();
+
 		// Drawing
 		BeginDrawing();
 		ClearBackground(BLACK);
 		DrawRectangleRec(map_bounds, DARKPURPLE);
 		player.draw();
 		npc.draw();
+		enemy.draw();
 
 	#pragma region imgui
 		rlImGuiBegin();

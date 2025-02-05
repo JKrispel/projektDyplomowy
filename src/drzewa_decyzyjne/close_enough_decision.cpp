@@ -1,7 +1,7 @@
 #include "drzewa_decyzyjne/distance_decision/close_enough_decision.h"
 #include <memory>
 #include <decisions/decision_tree/final_decision.h>
-#include "utils/NpcAction.h"
+#include "utils/npc_action.h"
 
 
 std::unique_ptr<DecisionTreeNode> CloseEnoughDecision::getBranch()

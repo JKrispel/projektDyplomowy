@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include <memory>
 #include <unordered_map>
+#include <raylib.h>
 #include <raymath.h>
 #include "pawn.h"
 #include "decisions/action_manager/action_manager.h"
 #include "drzewa_decyzyjne/distance_decision/distance_decision.h"
-#include "utils/NpcAction.h"
+#include "utils/npc_action.h"
 
 class Npc : public Pawn {
 

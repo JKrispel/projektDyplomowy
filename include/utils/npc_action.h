@@ -4,4 +4,7 @@ enum class NpcAction {
     RUN,
     WALK,
     STOP,
+    CHASE,
+    CHANGE_DIRECTION,
+    PATROL,
 };

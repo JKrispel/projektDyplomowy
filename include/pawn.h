@@ -4,10 +4,10 @@
 class Pawn {
 
 public:
-	Vector2 position;
-	float speed;
-	int radius;
-	Rectangle area;
+	Vector2 position{};
+	float speed{};
+	int radius{};
+	Rectangle area{};
 
 	virtual void draw() = 0;
 	virtual void update() = 0;

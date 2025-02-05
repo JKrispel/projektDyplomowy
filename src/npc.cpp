@@ -1,10 +1,10 @@
-﻿#include <raylib.h>
+﻿#include "npc.h"
 #include <decisions/decision_tree/final_decision.h>
-#include "npc.h"
 #include "actions/run.h"
 #include "actions/walk.h"
 #include "actions/stop.h"
-
+// pomiary wydajności:
+#include <chrono>
 #include <iostream>
 
 Npc::Npc(Pawn& target):
@@ -26,10 +26,17 @@ void Npc::update()
 {
 	// aktualizuj odgległość
 	rootNode.setDistanceToTarget(Vector2Distance(position, target.position));
+	// czas start
+	auto start = std::chrono::high_resolution_clock::now();
 	// podejmij decyzję
 	std::unique_ptr<DecisionTreeNode> decision = rootNode.makeDecision();
+	// czas stop
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> duration = end - start;
+	// std::cout << "Execution time: " << duration.count() << " seconds" << std::endl;
+	// wykonaj Akcję
 	auto* finalDecision = dynamic_cast<FinalDecision<NpcAction>*>(decision.get());
 	NpcAction actionType = finalDecision->getActionType();
 	npcActions[actionType]->execute();
-} 
+}
 // Pawn position bez settera!

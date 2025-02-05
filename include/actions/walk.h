@@ -1,6 +1,5 @@
 #pragma once
 #include "pawn.h"
-#include <raymath.h>
 #include <decisions/action_manager/action.h>
 
 class Walk : public Action {
