@@ -12,19 +12,24 @@ class Enemy : public Pawn {
 
 private:
 
-
 	Color color = ORANGE;
 	Pawn& targetRef;
 	std::unique_ptr<Path> pathPtr;
 	float distanceToTarget{};
 	float distanceToPath{};
-	std::unique_ptr<EnemyInRange> rootNode;  // Use a pointer to avoid circular dependency
+	std::unique_ptr<EnemyInRange> rootNode;  // AI
 	// mapa możliwych Akcji, unique_ptr dla polimorfizmu
 	std::unordered_map<NpcAction, std::unique_ptr<Action>> npcActions;
 
 public:
-	double lastTriggerTime = 0.0;  // Stores last decision time
-	const double debounceDelay = 0.5;  // 500ms debounce
+	// debounce:
+	double changeDirectionTime = 0.0;  // ostatnia Akcja CHANGE_DIRECTION
+	const double debounceDelay = 0.5;  // debounce
+	double lostAggroTime = 0.0;  // ostatnie stracenie aggro
+	double aggroDelay;	// cooldown dla CHASE
+	// cooldown:
+	double lastDmgTime = 0.0;
+	const double dmgDelay = 0.5;  // dmg debounce
 
 	Enemy(Pawn& target);
 

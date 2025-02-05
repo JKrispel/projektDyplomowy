@@ -67,16 +67,13 @@ int main(void)
 #pragma endregion
 
 	Player player;
-
 	player.position.x = screen_width / 2;
 	player.position.y = screen_height / 2;
 	player.radius = 20;
 	player.speed = 7;
 	player.area = map_bounds;
 
-	// w finalnej implementacji NPC bedzie posiadal ActionManager
-	// Npc(Podążający) otrzymuje jako target gracza
-
+	// npc i enemy otrzymują jako target gracza
 	Npc npc = Npc(player);
 	npc.position.x = 50.f;
 	npc.position.y = 50.f;
@@ -94,9 +91,10 @@ int main(void)
 	
 
 		// Updating
-		player.update();
 		npc.update();	// w środku zawarta logika AI
 		enemy.update();
+		player.update();
+
 
 		// Drawing
 		BeginDrawing();

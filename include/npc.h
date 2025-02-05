@@ -14,7 +14,6 @@ public:
 
 	Pawn& target;
 	DistanceDecision rootNode = DistanceDecision(Vector2Distance(position, target.position));
-	std::unique_ptr<ActionManager> manager;
 	// mapa możliwych Akcji, unique_ptr dla polimorfizmu
 	std::unordered_map<NpcAction, std::unique_ptr<Action>> npcActions;
 

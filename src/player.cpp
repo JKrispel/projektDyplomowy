@@ -5,11 +5,21 @@
 
 void Player::draw()
 {
+	DrawRectangle(position.x - 27.0f, position.y - 32.0f, 55.0f, 10.0f, BLACK);
+	DrawRectangle(position.x - 25.0f, position.y - 30.0f, 50.0f, 5.0f, RED);
+	DrawRectangle(position.x - 25.0f, position.y - 30.0f, 50.0f * (this->getHp()) / 100, 5.0f, GREEN);
 	DrawCircle(position.x, position.y, radius, WHITE);
 }
 
 void Player::update()
 {	
+	double now = GetTime();  // czas w sekundach
+	bool canRegen = (now - regenTime) > regenDelay;
+
+	if (canRegen && (getHp() + regenAmount <= 100)) {
+		regenTime = now;
+		this->healPawn(regenAmount);
+	}
 	Vector2 direction = Vector2Zero();
 	
 	if (IsKeyDown(KEY_UP) && position.y >= area.y + radius) {
@@ -26,6 +36,11 @@ void Player::update()
 	}
 
 	position = Vector2Add(position, Vector2Scale(Vector2Normalize(direction), speed));
+}
 
-	return;
+void Player::dealDmg(int hpAmount)
+{
+	Pawn::dealDmg(hpAmount);
+	double now = GetTime();  // czas w sekundach
+	regenTime = now;
 }

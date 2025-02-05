@@ -11,7 +11,9 @@ Enemy::Enemy(Pawn& targetRef):
 	targetRef(targetRef),
 	pathPtr(std::make_unique<Path>()),
 	rootNode(std::make_unique<EnemyInRange>(*this))
-{
+{	
+	speed = 7.0;
+	aggroDelay = 0.3 * speed;
 	// patrolowana ścieżka:
 	pathPtr->addPoint(50.0f, 100.0f);
 	pathPtr->addPoint(50.0f, 400.0f);
@@ -26,18 +28,27 @@ Enemy::Enemy(Pawn& targetRef):
 
 void Enemy::draw()
 {
+	// DrawRectangle(position.x - 27.0f, position.y - 32.0f, 55.0f, 10.0f, BLACK);
+	// DrawRectangle(position.x - 25.0f, position.y - 30.0f, 50.0f, 5.0f, GREEN);
 	DrawCircle(position.x, position.y, radius, color);
 }
 
 void Enemy::update()
 {
+	// dmg debounce
+	double now = GetTime();  // czas w sekundach
+	bool canDmg = (now - lastDmgTime) > dmgDelay;
+	bool collision = CheckCollisionCircles(targetRef.position, targetRef.radius, position, radius);
+	if (collision  && canDmg) {
+		lastDmgTime = now;
+		targetRef.dealDmg(10);
+	}
 	updateDistance();	// nowe informacje o odległościach dla decyzji
 	// podejmij decyzję
 	std::unique_ptr<DecisionTreeNode> decision = rootNode->makeDecision();
 	// wykonaj Akcję
 	auto* finalDecision = dynamic_cast<FinalDecision<NpcAction>*>(decision.get());
 	NpcAction actionType = finalDecision->getActionType();
-	//std::cout << "Akcja: "<< static_cast<int>(actionType) << std::endl; // 5 lub 3
 	npcActions[actionType]->execute();
 }
 

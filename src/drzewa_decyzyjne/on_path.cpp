@@ -7,14 +7,15 @@
 
 std::unique_ptr<DecisionTreeNode> OnPath::getBranch()
 {
-    double now = GetTime();  // ✅ Get current time in seconds
-
+    double now = GetTime();  // czas w sekundach
+     
     // debounce
-    if (now - enemyRef.lastTriggerTime < enemyRef.debounceDelay) {
+    if (now - enemyRef.changeDirectionTime < enemyRef.debounceDelay) {
         return std::make_unique<FinalDecision<NpcAction>>(NpcAction::PATROL);
     }
     if (isClose(enemyRef.getPathDistance(), 0.0f)) {
-        enemyRef.lastTriggerTime = now;
+
+        enemyRef.changeDirectionTime = now;
         return std::make_unique<FinalDecision<NpcAction>>(NpcAction::CHANGE_DIRECTION);
     }
     else {
